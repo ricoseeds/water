@@ -45,7 +45,7 @@ int gWindowHeight = 768;
 GLFWwindow *gWindow = NULL;
 bool gWireframe = false;
 bool gFlashlightOn = true;
-glm::vec4 gClearColor(0.5f, 0.5f, 1.0f, 1.0f);
+glm::vec4 gClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 static bool mac_moved = false;
 const int MaxParticles = 10000;
 Particle ParticlesContainer[MaxParticles];
@@ -154,13 +154,13 @@ int main()
 	Mesh mesh[numModels];
 	Texture2D texture[numModels];
 
-	mesh[0].loadOBJ("models/watergun.obj");
-	mesh[1].loadOBJ("models/watergun.obj");
-	mesh[2].loadOBJ("models/watergun.obj");
+	// mesh[0].loadOBJ("models/watergun.obj");
+	// mesh[1].loadOBJ("models/watergun.obj");
+	// mesh[2].loadOBJ("models/watergun.obj");
 
-	texture[0].loadTexture("textures/gray.png", true);
-	texture[1].loadTexture("textures/gray.png", true);
-	texture[2].loadTexture("textures/gray.png", true);
+	// texture[0].loadTexture("textures/gray.png", true);
+	// texture[1].loadTexture("textures/gray.png", true);
+	// texture[2].loadTexture("textures/gray.png", true);
 
 	// Model positions
 	glm::vec3 modelPos[] = {
@@ -299,7 +299,7 @@ int main()
 			ParticlesContainer[particleIndex].pos = glm::vec3(-1.3, 0, 0);
 
 			float spread = 1.5f;
-			glm::vec3 maindir = glm::vec3(5.0f, 10.0f, 0.0f); // main direction of thw particles
+			glm::vec3 maindir = glm::vec3(1.0f, 1.0f, 0.0f); // main direction of thw particles
 			// Very bad way to generate a random direction;
 			// See for instance http://stackoverflow.com/questions/5408276/python-uniform-spherical-distribution instead,
 			// combined with some user-controlled parameters (main direction, spread, etc)
@@ -310,16 +310,10 @@ int main()
 
 			ParticlesContainer[particleIndex].speed = maindir + randomdir * spread;
 
-			ParticlesContainer[particleIndex].r = 90;
-			ParticlesContainer[particleIndex].g = 90;
-			if (RandomFloat(0.0f, 10.0f) < 8.0)
-			{
-				ParticlesContainer[particleIndex].b = 255;
-			}
-			else
-			{
-				ParticlesContainer[particleIndex].b = 200;
-			}
+			ParticlesContainer[particleIndex].r = 200;
+			ParticlesContainer[particleIndex].g = 200;
+
+			ParticlesContainer[particleIndex].b = 20;
 
 			// ParticlesContainer[particleIndex].b = RandomFloat(200.0f, 255.0f);
 			;
@@ -338,7 +332,7 @@ int main()
 			ParticlesContainer[particleIndex].pos = glm::vec3(1.6, 0.4, 0);
 
 			float spread = 1.5f;
-			glm::vec3 maindir = glm::vec3(-10.0f, 10.0f, 0.0f); // main direction of thw particles
+			glm::vec3 maindir = glm::vec3(0.0f, 1.0f, 0.0f); // main direction of thw particles
 			// Very bad way to generate a random direction;
 			// See for instance http://stackoverflow.com/questions/5408276/python-uniform-spherical-distribution instead,
 			// combined with some user-controlled parameters (main direction, spread, etc)
@@ -348,17 +342,11 @@ int main()
 				(rand() % 2000 - 1000.0f) / 1000.0f);
 
 			ParticlesContainer[particleIndex].speed = maindir + randomdir * spread;
+			// ParticlesContainer[particleIndex].speed /= 8.0f;
+			ParticlesContainer[particleIndex].r = 20;
+			ParticlesContainer[particleIndex].g = 30;
 
-			ParticlesContainer[particleIndex].r = 90;
-			ParticlesContainer[particleIndex].g = 90;
-			if (RandomFloat(0.0f, 10.0f) < 8.0)
-			{
-				ParticlesContainer[particleIndex].b = 255;
-			}
-			else
-			{
-				ParticlesContainer[particleIndex].b = 200;
-			}
+			ParticlesContainer[particleIndex].b = 233;
 
 			// ParticlesContainer[particleIndex].b = RandomFloat(200.0f, 255.0f);
 			;
@@ -377,7 +365,7 @@ int main()
 			ParticlesContainer[particleIndex].pos = glm::vec3(-1.3, 0.79, 0);
 
 			float spread = 1.5f;
-			glm::vec3 maindir = glm::vec3(10.0f, 10.0f, 0.0f); // main direction of thw particles
+			glm::vec3 maindir = glm::vec3(0.0f, 1.0f, 0.0f); // main direction of thw particles
 			// Very bad way to generate a random direction;
 			// See for instance http://stackoverflow.com/questions/5408276/python-uniform-spherical-distribution instead,
 			// combined with some user-controlled parameters (main direction, spread, etc)
@@ -388,16 +376,10 @@ int main()
 
 			ParticlesContainer[particleIndex].speed = maindir + randomdir * spread;
 
-			ParticlesContainer[particleIndex].r = 150;
-			ParticlesContainer[particleIndex].g = 90;
-			if (RandomFloat(0.0f, 10.0f) < 8.0)
-			{
-				ParticlesContainer[particleIndex].b = 255;
-			}
-			else
-			{
-				ParticlesContainer[particleIndex].b = 200;
-			}
+			ParticlesContainer[particleIndex].r = 40;
+			ParticlesContainer[particleIndex].g = 250;
+
+			ParticlesContainer[particleIndex].b = 80;
 
 			// ParticlesContainer[particleIndex].b = RandomFloat(200.0f, 255.0f);
 			;
@@ -423,7 +405,9 @@ int main()
 				{
 
 					// Simulate simple physics : gravity only, no collisions
-					p.speed += glm::vec3(0.0f, -9.81f, 0.0f) * (float)deltaTime * 0.5f;
+					glm::vec3 drag = glm::vec3(0.0f, (double)RandomFloat(-1.0f, 2.0f), 0.0f);
+					p.speed += drag * (float)deltaTime * 0.5f;
+					// p.speed += glm::vec3(0.0f, -9.81f, 0.0f) * (float)deltaTime * 0.5f;
 					p.pos += p.speed * (float)deltaTime;
 
 					// std::cout << glm::to_string(p.pos) << std::endl;
@@ -554,35 +538,6 @@ int main()
 		lightingShader.setUniform("pointLights[2].constant", 1.0f);
 		lightingShader.setUniform("pointLights[2].linear", 0.22f);
 		lightingShader.setUniform("pointLights[2].exponent", 0.20f);
-		for (int i = 0; i < 3; i++)
-		{
-			if (i == 0)
-			{
-				model = glm::translate(glm::mat4(1.0), modelPos[i]) * glm::scale(glm::mat4(1.0), modelScale[i]) * glm::rotate(glm::mat4(1.0), glm::radians((float)(-90)), glm::vec3(1.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(1.0), glm::radians((float)(34)), glm::vec3(0.0f, 1.0f, 0.0f));
-			}
-			else if (i == 1)
-			{
-				model = glm::translate(glm::mat4(1.0), modelPos[i]) * glm::scale(glm::mat4(1.0), modelScale[i] * 0.8f) * glm::rotate(glm::mat4(1.0), glm::radians((float)(-90)), glm::vec3(1.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(1.0), glm::radians((float)(-44)), glm::vec3(0.0f, 1.0f, 0.0f));
-			}
-			else if (i == 2)
-			{
-				model = glm::translate(glm::mat4(1.0), modelPos[i]) * glm::scale(glm::mat4(1.0), modelScale[i]) * glm::rotate(glm::mat4(1.0), glm::radians((float)(-90)), glm::vec3(1.0f, 0.0f, 0.0f)) * glm::rotate(glm::mat4(1.0), glm::radians((float)(39)), glm::vec3(0.0f, 1.0f, 0.0f));
-			}
-			// model = glm::translate(glm::mat4(1.0), modelPos[i]) * glm::scale(glm::mat4(1.0), modelScale[i]) * glm::rotate(glm::mat4(1.0), glm::radians((float)(-90)), glm::vec3(1.0f, 0.0f, 0.0f));
-
-			// model = glm::translate(glm::mat4(1.0), modelPos[i]) * glm::scale(glm::mat4(1.0), modelScale[i]); // * glm::rotate(glm::mat4(1.0), glm::radians((float)(glfwGetTime() * 100.0f)), glm::vec3(1.0f, 0.0f, 0.0f));
-			lightingShader.setUniform("model", model);
-
-			// 	// Set material properties
-			lightingShader.setUniform("material.ambient", glm::vec3(0.1f, 0.1f, 0.1f));
-			lightingShader.setUniformSampler("material.diffuseMap", 0);
-			lightingShader.setUniform("material.specular", glm::vec3(0.2f, 0.2f, 0.2f));
-			lightingShader.setUniform("material.shininess", 10.0f);
-
-			texture[i].bind(0); // set the texture before drawing.  Our simple OBJ mesh loader does not do materials yet.
-			mesh[i].draw();		// Render the OBJ mesh
-			texture[i].unbind(0);
-		}
 
 		// Swap front and back buffers
 		glfwSwapBuffers(gWindow);
