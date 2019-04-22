@@ -386,7 +386,7 @@ int main()
 			ParticlesContainer[particleIndex].a = RandomFloat(10.0f, 255.0f);
 
 			// ParticlesContainer[particleIndex].size = 0.06f;
-			ParticlesContainer[particleIndex].size = RandomFloat(0.01, 0.08);
+			ParticlesContainer[particleIndex].size = RandomFloat(0.01, 0.02);
 			// ParticlesContainer[particleIndex].size = (rand() % 1000) / 2000.0f + 0.1f;
 		}
 
@@ -405,7 +405,7 @@ int main()
 				{
 
 					// Simulate simple physics : gravity only, no collisions
-					glm::vec3 drag = glm::vec3(0.0f, (double)RandomFloat(-1.0f, 2.0f), 0.0f);
+					glm::vec3 drag = glm::vec3((double)RandomFloat(1.0f, 2.0f), (double)RandomFloat(-1.0f, 2.0f), 0.0f);
 					p.speed += drag * (float)deltaTime * 0.5f;
 					// p.speed += glm::vec3(0.0f, -9.81f, 0.0f) * (float)deltaTime * 0.5f;
 					p.pos += p.speed * (float)deltaTime;
